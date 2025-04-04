@@ -1,0 +1,5 @@
+.env
+venv/
+app_without_memory.py
+BME_Web_help_files/
+Video_scripts/

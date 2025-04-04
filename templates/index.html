@@ -1,0 +1,70 @@
+<html>
+
+<head>
+  <title>CHATBOT</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+  <!-- Add a div for the black header above the "Ask Your Question??" section -->
+ 
+
+  <section style="background-color: #eee;">
+    <div class="container py-5">
+      <div class="glass">
+        <!-- Existing "Ask Your Question??" section -->
+        <h1>Ask Your Question??</h1>
+        <div id="chatLog"></div>
+        <div class="input">
+          <div id="loader" style="display: none; text-align: center;">
+            <i class="fa fa-spinner fa-spin"></i> Loading...
+          </div>
+          <input type="text" id="userBox" onkeydown="if(event.keyCode == 13){ talk() }" placeholder="Type your Question" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function showLoader() {
+      $('#loader').css('display', 'block');
+    }
+
+    function hideLoader() {
+      $('#loader').css('display', 'none');
+    }
+
+    function talk() {
+      var searchkey = '';
+      var timesnow = '';
+      var d = new Date(); // for now
+      timesnow = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(); // => 9
+
+      searchkey = $('#userBox').val();
+      $('#userBox').val('');
+      $('#chatLog').append('<div class="question"><img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp" alt="avatar 1" style="width: 45px; height: 40px;">' + searchkey + '<p class="qtime">' + timesnow + '</p></div>');
+      if (searchkey != '' && searchkey != undefined) {
+        showLoader();
+        $.ajax({
+          type: 'GET',
+          url: "http://127.0.0.1:5000/query", 
+          contentType: 'application/json;charset=UTF-8',
+          data: { "text": searchkey },
+          success: function (res) {
+            hideLoader();
+            var responseHTML = '<div class=reschat"><img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp" alt="avatar 1" style="width: 45px; height: 40px;">' + res + '<p class="qtime">' + timesnow + '</p></div>';
+            $('#chatLog').append(responseHTML);
+          },
+          complete: function () {
+            hideLoader();
+          }
+        });
+      }
+    }
+  </script>
+</body>
+
+</html>
