@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BME CHATBOT</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="glass">
+      
+      <div class="chat-header">
+        <img src="{{ url_for('static', filename='imgb.jfif') }}" alt="VainuBot">
+        <h1>BMEBot</h1>
+      </div>
+      
+      <div id="chatLog">
+      </div>
+
+      <div id="loader" style="display: none; text-align: center; padding: 5px; font-size: 14px; color: #17b6aa;">
+        <i class="fa fa-spinner fa-spin"></i> Loading...
+      </div>
+
+      <div class="input-container">
+        <div class="input">
+          <input type="text" id="userBox" placeholder="Write a message" onkeydown="if(event.keyCode == 13){ talk() }">
+          <button class="send-button" onclick="talk()"><i class="fa fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const botAvatar = "{{ url_for('static', filename='imgb.jfif') }}";
+
+  function showLoader() {
+    $('#loader').css('display', 'block');
+  }
+
+  function hideLoader() {
+    $('#loader').css('display', 'none');
+  }
+
+  function talk() {
+    var searchkey = '';
+    var timesnow = '';
+    var d = new Date();
+    
+    var hours = d.getHours();
+    var minutes = d.getMinutes();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    timesnow = hours + ':' + minutes + ' ' + ampm;
+
+    searchkey = $('#userBox').val();
+    if (searchkey == '' || searchkey == undefined) return;
+    
+    $('#userBox').val('');
+    
+    var userHTML = '<div class="question">' +
+      '<div class="message-content">' + searchkey + 
+      '<p class="qtime">' + timesnow + '</p></div></div>';
+    
+    $('#chatLog').append(userHTML);
+    
+    $('#chatLog').scrollTop($('#chatLog')[0].scrollHeight);
+    
+    showLoader();
+    
+    $.ajax({
+      type: 'GET',
+      url: "http://127.0.0.1:5000/query",
+      contentType: 'application/json;charset=UTF-8',
+      data: { "text": searchkey },
+      success: function (res) {
+        hideLoader();
+        
+        var responseHTML = '<div class="reschat">' +
+          '<img src="' + botAvatar + '" alt="avatar" style="width: 35px; height: 35px;">' +
+          '<div class="message-content">' + res + 
+          '<p class="qtime">' + timesnow + '</p></div></div>';
+        
+        $('#chatLog').append(responseHTML);
+        
+        $('#chatLog').scrollTop($('#chatLog')[0].scrollHeight);
+      },
+      complete: function () {
+        hideLoader();
+      }
+    });
+  }
+
+  $(document).ready(function() {
+    var d = new Date();
+    var hours = d.getHours();
+    var minutes = d.getMinutes();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var timesnow = hours + ':' + minutes + ' ' + ampm;
+
+    var welcomeMessage = "I am here to assist with any queries related to BatchMaster ERP. Feel free to ask if you need any help!";
+    
+    var responseHTML = '<div class="reschat">' +
+      '<img src="' + botAvatar + '" alt="avatar" style="width: 35px; height: 35px;">' +
+      '<div class="message-content">' + welcomeMessage +
+      '<p class="qtime">' + timesnow + '</p></div></div>';
+    
+    $('#chatLog').append(responseHTML);
+  });
+</script>
+
+</body>
+</html>

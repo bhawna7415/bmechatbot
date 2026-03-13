@@ -1,0 +1,25 @@
+services:
+  backend:
+    build:
+      context: ./Backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./Backend:/app
+    environment:
+      - FLASK_ENV=development
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PINECONE_API_KEY=${PINECONE_API_KEY}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL}
+      - LLM_MODEL=${LLM_MODEL}
+      - PDF_BASE_URL=${PDF_BASE_URL}
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./Frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    restart: unless-stopped

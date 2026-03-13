@@ -1,0 +1,11 @@
+.env
+venv/
+BME_Web_help_files/
+Video_scripts/
+BME Web Videos List.xlsx
+Pdf URL.xlsx
+
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd

@@ -1,0 +1,46 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/@syncfusion/ej2-base/styles/bootstrap5.css";
+@import "../node_modules/@syncfusion/ej2-interactive-chat/styles/bootstrap5.css";
+@import "../node_modules/@syncfusion/ej2-inputs/styles/bootstrap5.css";
+@import "../node_modules/@syncfusion/ej2-navigations/styles/bootstrap5.css";
+@import "../node_modules/@syncfusion/ej2-notifications/styles/bootstrap5.css";
+
+.default-aiassistview {
+  height: 600px;
+  width: 60vw;
+  margin: 0 auto;
+}
+
+.default-aiassistview .banner-content .e-assistview-icon:before {
+  font-size: 35px;
+}
+
+.default-aiassistview .banner-content .bme-logo {
+  margin-left: auto;
+  margin-right: auto;
+  width: 70px; 
+  height: 70px;
+}
+
+.default-aiassistview .banner-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 330px;
+  text-align: center;
+}
+
+@media only screen and (max-width: 750px) {
+  .default-aiassistview {
+    width: 100%;
+  }
+}
+
+
+.views-aiassistview .view-container .suggestions li {
+  padding: 0px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}

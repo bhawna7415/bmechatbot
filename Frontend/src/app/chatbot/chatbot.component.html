@@ -1,0 +1,57 @@
+<div class="container-fluid" *ngIf="authorized; else notAllowed">
+  <div class="glass">
+    <div class="chat-header">
+      <img [src]="botAvatar" alt="VainuBot" />
+      <h6 style="font-family: 'Quicksand', Geneva, sans-serif; color: #17b6aa;">Ask BME-Powered by AI</h6>
+    </div>
+
+    <div id="chatLog" #chatContainer>
+      <div *ngFor="let message of chatLog">
+        <div *ngIf="message.isDefault == true" [ngClass]="'defaultmessage'">
+          <img [src]="botAvatar" alt="avatar" style="width: 75px; height: 75px;" />
+          <h2 style="width: 855px;">I am here to assist with any queries related to BatchMaster ERP. Feel free to ask if you
+            need any help!</h2>
+        </div>
+        <div *ngIf="message.isDefault != true" [ngClass]="message.type === 'user' ? 'question' : 'reschat'">
+          <img  [src]="message.type === 'user' ? userAvatar : botAvatar" alt="avatar" style="width: 35px; height: 35px;" />
+          
+          <div class="message-content-wrapper">
+            <div class="message-content">
+              <span *ngIf="message.type === 'bot'" [innerHTML]="message.text"></span>
+              <span *ngIf="message.type === 'user'">{{ message.text }}</span>
+              <p class="qtime">{{ message.time }}</p>
+            </div>
+
+            <div class="copy-btn-below" *ngIf="!message.isDefault">
+              <i class="fa fa-copy"
+                title="Copy"
+                (click)="copyToClipboard(message.text)">
+              </i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="loading" id="loader">
+        <i class="fa fa-spinner fa-spin"></i> Loading...
+      </div>
+    </div>
+
+    <div class="input-container">
+      <div class="input">
+        <input
+          type="text"
+          [(ngModel)]="userInput"
+          placeholder="Write a message"
+          (keydown.enter)="sendMessage()" />
+        <button class="send-button" (click)="sendMessage()">
+          <i class="fa fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #notAllowed>
+  <h2>You are not Authorized for this action.</h2>
+</ng-template>

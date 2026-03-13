@@ -1,0 +1,68 @@
+/* .app-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  } */
+
+app-chatbot {
+  display: block !important;
+  width: 800px !important;
+  min-width: 800px !important;
+}
+
+.container, .glass {
+  width: 800px !important;
+  min-width: 800px !important;
+  box-sizing: border-box !important;
+}
+
+/* Reset any responsive behavior */
+@media (max-width: 800px) {
+  app-chatbot,
+  .container,
+  .glass {
+    width: 800px !important;
+    min-width: 800px !important;
+  }
+}
+
+/*CSS for the Header Toolbar of the chatbot--------------------------------START*/
+/* To remove the rounded edges around the input area */
+::ng-deep .e-aiassistview .e-footer {
+  border: none !important;
+}
+
+/* To hide the default assist icon */
+::ng-deep .e-aiassist-header-text .e-btn-icon {
+  display: none !important;
+}
+
+/* To set the font and width of BME Help Assistant Text*/
+::ng-deep .e-aiassist-header-text .e-tbar-btn-text {
+  font-weight: 600;
+  font-size: 15px;
+  min-width: 200px;
+}
+
+/*Logo of BME before BME Help Assistant Text*/
+::ng-deep .e-aiassist-header-text .e-tbar-btn-text::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  background-image: url('/assets/images/imgb.jfif');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 6px;
+}
+
+::ng-deep .custom-response-icon {
+  background-image: url('/assets/images/imgb.jfif');
+}
+/*CSS for the Header Toolbar of the chatbot---------------------------------END*/
